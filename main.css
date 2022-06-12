@@ -1,0 +1,41 @@
+body {
+	background: url("background.png"), #0060B8;
+	background-size: cover;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	text-align: center;
+}
+p {
+	font-size: 24px;
+}
+
+#midimage {
+	margin-bottom: -3px;
+	margin-top: 1em;
+}
+
+.bodycontent {
+	display: inline-block;
+	border-radius: 20px;
+	text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+	color: rgb(19, 19, 19);
+	background-color: #98E0E080;
+	font-size: 1.05em;
+	font-weight: 400;
+	text-align: center;
+	padding: 0em;
+	padding-top: 0em;
+	padding-bottom: 0em;
+	width: calc(100% - 4em);
+	max-width: 800px;
+	position: relative; 
+	margin:1em;
+	z-index: 0;
+
+	margin: 0em 0em 2em 0em;
+	padding: 1em;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+	content: "";
+}
