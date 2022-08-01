@@ -1,7 +1,7 @@
 body {
-	background: url("background.png"), #0060B8;
+	background: url("battle/background.png"), #23003A;
 	background-size: cover;
-	background-position: center top;
+	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 	text-align: center;
@@ -10,8 +10,8 @@ p {
 	font-size: 24px;
 }
 
-#midimage {
-	margin-bottom: -3px;
+#topimage {
+	margin-bottom: -12px;
 	margin-top: 1em;
 }
 
@@ -33,7 +33,7 @@ p {
 	margin:1em;
 	z-index: 0;
 
-	margin: 0em 0em 2em 0em;
+	margin: 0em 0em 0em 0em;
 	padding: 1em;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
