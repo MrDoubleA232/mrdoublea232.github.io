@@ -11,15 +11,44 @@ body {
 	margin-top: 6em;
 }
 
+#midimage {
+	text-align: center;
+}
+
 .bodycontent {
 	display: inline-block;
 	border-radius: 20px;
 	text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
-	color: rgb(19, 19, 19);
-	background-color: #C7FFFB80;
+	color: rgb(0, 0, 0);
+	background-color: #C7FFFBA0;
 	font-size: 24px;
 	font-weight: 400;
 	text-align: center;
+	padding: 0em;
+	padding-top: 0em;
+	padding-bottom: 0em;
+	width: calc(100% - 4em);
+	max-width: 800px;
+	position: relative; 
+	margin:1em;
+	z-index: 0;
+
+	margin: 0em 0em 2em 0em;
+	padding: 1em;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+	content: "";
+}
+
+.helpcontent {
+	display: inline-block;
+	border-radius: 20px;
+	text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+	color: rgb(0, 0, 0);
+	background-color: #C7FFFBA0;
+	font-size: 20px;
+	font-weight: 400;
+	text-align: left;
 	padding: 0em;
 	padding-top: 0em;
 	padding-bottom: 0em;
