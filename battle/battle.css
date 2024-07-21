@@ -1,0 +1,45 @@
+body {
+	background-color: #1F0C3B;
+	background-image: url('assets/background.png');
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center top;
+	background-repeat: no-repeat;
+	text-align: center;
+}
+
+#topimage {
+	margin-bottom: -12px;
+	margin-top: 32px;
+	z-index: 100;
+}
+
+#logo {
+	margin-top: 64px;
+}
+
+.bodyContent {
+	background-color: #000000C0;
+	/* https://stackoverflow.com/questions/14770312/how-to-achieve-chamfered-css-border-corners-rather-than-rounded-corners */
+	clip-path: polygon(12px 0%, calc(100% - 24px) 0%, 100% 24px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 24px 100%, 0% calc(100% - 24px), 0% 12px);
+	
+	margin: auto;
+	text-align: center;
+	max-width: 800px;
+	height: fit-content;
+	padding: 50px;
+
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 24px;
+	color: white;
+
+	content: "";
+}
+
+@media only screen and (max-width: 1000px) {
+	.bodyContent {
+		background-color: lightblue;
+		font-size: 24px;
+		padding: 12px;
+	}
+}
