@@ -8,10 +8,9 @@ body {
 	text-align: center;
 }
 
-#topimage {
-	margin-bottom: -12px;
+#topImage {
+	margin-bottom: -9px;
 	margin-top: 32px;
-	z-index: 100;
 }
 
 #logo {
@@ -19,27 +18,117 @@ body {
 }
 
 .bodyContent {
-	background-color: #000000C0;
-	/* https://stackoverflow.com/questions/14770312/how-to-achieve-chamfered-css-border-corners-rather-than-rounded-corners */
+	background-color: #000000D0;
 	clip-path: polygon(12px 0%, calc(100% - 24px) 0%, 100% 24px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 24px 100%, 0% calc(100% - 24px), 0% 12px);
 	
 	margin: auto;
-	text-align: center;
+	text-align: justify;
 	max-width: 800px;
 	height: fit-content;
-	padding: 50px;
+	padding: 24px 48px;
 
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 24px;
+	font-size: 20px;
 	color: white;
 
-	content: "";
+	margin-bottom: 128px;
 }
+
+.bodyContentIndex {
+	text-align: center;
+	font-size: 24px;
+}
+
+
+.buttonContent {
+	background-color: #000000C0;
+	clip-path: polygon(12px 0%, calc(100% - 24px) 0%, 100% 24px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 24px 100%, 0% calc(100% - 24px), 0% 12px);
+
+	width: fit-content;
+	height: fit-content;
+	min-width: 256px;
+	font-size: 32px;
+	padding: 24px 48px;
+	text-align: center;
+
+	display: inline-block;
+	align-items: center;
+
+	margin: 12px 0;
+}
+
+.buttonContent:hover {
+	color: #FFFF40;
+}
+
+
+a {
+	all: unset;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.link {
+	color: lightblue;
+}
+.link:hover {
+	color: rgb(87, 118, 128);
+}
+.link:visited {
+	color: rgb(188, 173, 230);
+}
+.link:hover:visited {
+	color: rgb(143, 128, 185);
+}
+
+
+.codeBlock {
+	background-color: #000000C0;
+	clip-path: polygon(8px 0%, calc(100% - 16px) 0%, 100% 16px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 16px 100%, 0% calc(100% - 16px), 0% 8px);
+
+	font-size: inherit;
+	padding: 16px 24px;
+	
+	font-family: monospace, monospace;
+}
+
+.screenshot {
+	border: 3px solid white;
+	border-bottom-width: 6px; /* thanks Stella! */
+}
+
+h1 {
+	text-align: center;
+	margin-bottom: 48px;
+}
+
+h3 {
+	margin-top: 32px;
+}
+
 
 @media only screen and (max-width: 1000px) {
 	.bodyContent {
 		clip-path: polygon(16px 0%, calc(100% - 32px) 0%, 100% 32px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 32px 100%, 0% calc(100% - 32px), 0% 16px);
+		font-size: 32px;
+		padding: 16px 32px;
+	}
+
+	.bodyContentIndex {
 		font-size: 40px;
-		padding: 12px;
+	}
+
+	.buttonContent {
+		clip-path: polygon(16px 0%, calc(100% - 32px) 0%, 100% 32px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 32px 100%, 0% calc(100% - 32px), 0% 16px);
+		font-size: 54px;
+		padding: 24px 48px;
+		width: fit-content;
+		min-width: 384px;
+		margin-left: 24px !important;
+		margin-right: 24px !important;
+	}
+
+	#logo {
+		width: calc(100% - 48px);
 	}
 }

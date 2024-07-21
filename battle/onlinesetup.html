@@ -1,0 +1,99 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Online Setup - Battle Arena</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="battle.css" />
+		<link rel="icon" type="image/x-icon" href="assets/smallIcon.png">
+	</head>
+	<body>
+		<script>
+			function copySocketLineToClipboard() {
+				navigator.clipboard.writeText('customPackage.loaded["socket.core"] = require("socket.core")');
+			}
+		</script>
+
+		<a href="../battle">
+			<img id="logo" src="assets/logo.png">
+		</a>
+		<div id="topImage"><img src="assets/topImage_setup.png"></div>
+		<div class="bodyContent">
+			<h1>Online Setup Guide</h1>
+
+			<h2>1. Installing Radmin VPN</h2>
+			<p>
+				In order to connect with other players over the internet, another program called <a class="link" href="https://www.radmin-vpn.com">Radmin VPN</a> is required. This allows computers connected over the internet to act like a LAN network.
+			</p>
+			<p>
+				Once installed, you can either make a network for you and your friends, or join an existing network. Note that this exposes your IP address to everyone else in the network, so only join a network if you trust the owner!
+			</p>
+
+			<h2>2. Allowing Socket</h2>
+			<p>
+				By default, SMBX2 does not allow any internet access for security reasons. Of course, you'll need to enable this in order to play online.
+			</p>
+			<p>
+				Find where you installed SMBX2, and navigate to the "data/scripts/base/engine/main.lua" file. Open it in any text editor (even Notepad will do), and scroll to the very bottom. On a new line, add the following text:
+			</p>
+			<p class="codeBlock">
+				customPackage.loaded["socket.core"] = require("socket.core")
+				<button onclick="copySocketLineToClipboard();" style="cursor: pointer; float: right; border: none; background: none">
+					<img src="assets/copy.png" alt="Copy" style="width: 24px; height: 24px">
+				</button>
+			</p>
+
+			<h2>3. Creating/Joining a Room</h2>
+			<p>
+				After opening the game (or after hitting the red block on the right side of the hub), you will get the option to select "Online". From there, you can follow the steps below to host or join an existing game.
+			</p>
+			<p>
+				The host should be the person with the best connection to everyone else, as all traffic has to go through them.
+			</p>
+			<p>
+				Also, you can open the in-game chat by pressing the enter key.
+			</p>
+
+			<h3>Creating a Room</h3>
+			<p>
+				<img style="width: 40%; float: right; margin-left: 16px" class="screenshot" src="assets/screenshots/menu_host.png">
+				<div style="min-height: 256px">
+					<p>
+						After pressing the "Host a Game" button, enter a name (you can type with the keyboard, and then press enter to confirm) and pick a color that you like (which will be used for representing you).
+					</p>
+					<p>
+						Press host, and everyone else should be able to join!
+					</p>
+				</div>
+			</p>
+
+			<h3>Joining a Room</h3>
+			<p>
+				<img style="width: 40%; float: right; margin-left: 16px" class="screenshot" src="assets/screenshots/menu_join.png">
+				<div style="min-height: 256px">
+					<p>
+						Much like hosting a room, you will be asked to enter a username and pick a colour. You will also have to enter the host's IP address, which you can copy from Radmin VPN by right clicking the host and pressing Ctrl+V to paste it in-game.
+					</p>
+				</div>
+			</p>
+
+			<h2>4. Potential Issues</h3>
+			<p>
+				At this point, you should be ready to play! But below are some issues that you could run into.
+			</p>
+			
+			<h3>
+				Even when the host is hosting, I cannot join at all.
+			</h3>
+			<p>
+				You should make sure that you and the host both have Radmin VPN open and that the IP address is correct. You may also need to add a firewall exception. Bear in mind that you can only join while the host is in the hub, and not mid-game.
+			</p>
+
+			<h3>
+				I can join, but I get a warning message and cannot see other players moving.
+			</h3>
+			<p>
+				This is an known issue, where some types of messages cannot be received or sent properly. However, so long as you can still see chat messages and whatnot, the game should still be functional and the issue should resolve itself as soon as you start a game.
+			</p>
+		</div>
+	</body>
+</html>
