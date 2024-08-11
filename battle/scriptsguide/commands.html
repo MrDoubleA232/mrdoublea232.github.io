@@ -1,0 +1,48 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Writing Scripts - Battle Arena</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="../battle.css" />
+		<link rel="icon" type="image/x-icon" href="../assets/smallIcon.png">
+	</head>
+	<body>
+		<a href="../../battle">
+			<img id="logo" src="../assets/logo.png">
+		</a>
+		<div id="topImage"><img src="../assets/topImage_levelsguide.png"></div>
+		<div class="bodyContent">
+			<h2>Commands System</h2>
+			<p>
+				Almost all communication between users is done through the commands system.
+			</p>
+			<p class="codeBlock">
+				local onlinePlay = require("scripts/onlinePlay")<br><br>
+
+				<span class="codeComment">-- A command can be created using onlinePlay.createCommand. A unique name and an importance value is given.</span><br>
+				local exampleCommand = onlinePlay.createCommand("example", onlinePlay.IMPORTANCE_MAJOR)<br><br>
+
+				<span class="codeComment">-- You can specify what should happen when a command is received by using its onReceive function.</span><br>
+				function exampleCommand.onReceive(sourcePlayerIdx, foo,bar)<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">-- Your code here.</span></pre><br>
+				end<br><br>
+
+				<span class="codeComment">-- You can then send a command like so. The first argument is the index of the player that it will be sent to (0 to send to everyone). Anything after will be directly passed into the onReceive function.</span><br>
+				exampleCommand:send(0, foo,bar)<br>
+			</p>
+			<p>
+				The code comments here mostly explain how this system works. When creating a command, it is important that the name given to it is unique. As such, you should try to avoid any overly generic names.
+			<p>
+				The importance value for a command can be <span class="codeName">onlinePlay.IMPORTANCE_MINOR</span>, <span class="codeName">onlinePlay.IMPORTANCE_MAJOR</span>, or <span class="codeName">onlinePlay.IMPORTANCE_VITAL</span>. Minor should only be used for small, continuous updates, and there is no guarantee that the messages arrive in order or even arrive at all.
+			</p>
+			<p>
+				Major should be used for most events, as it is essentially guaranteed that it will arrive. It is also always processed in order of when it was sent. Vital is very niche and you should never really need it. It is the same as major, but it will freeze the game until it has arrived.
+			</p>
+			<p>
+				While any basic Lua value can be used as an argument to Command:send, more complex types (like NPCs) cannot be sent. See the <a class="link" href="encoding">encoding page</a> for more.
+			</p>
+		</div>
+
+		<img class="background" src="../assets/background.png">
+	</body>
+</html>
