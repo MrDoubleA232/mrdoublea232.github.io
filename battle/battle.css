@@ -33,12 +33,12 @@ body {
 	
 	margin: auto;
 	text-align: justify;
-	max-width: 800px;
+	max-width: 850px;
 	height: fit-content;
 	padding: 24px 48px;
 
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 20px;
+	font-size: 19px;
 	color: white;
 
 	margin-bottom: 128px;
@@ -103,10 +103,24 @@ a {
 	text-align: left;
 }
 
+.codeName {
+	font-size: inherit;
+	font-family: monospace, monospace;
+}
+
+.codeComment {
+	color: #808080;
+}
+
+.tab {
+	tab-size: 4;
+}
+
 .screenshot {
 	border: 3px solid white;
 	border-bottom-width: 6px; /* thanks Stella! */
 }
+
 
 h1 {
 	text-align: center;
@@ -115,6 +129,26 @@ h1 {
 
 h3 {
 	margin-top: 32px;
+}
+
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #a0a0a0;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(odd) {
+	background-color: #000000C0;
+}
+
+tr:nth-child(even) {
+	background-color: #181818C0;
 }
 
 

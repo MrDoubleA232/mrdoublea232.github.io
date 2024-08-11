@@ -1,0 +1,91 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Making Levels - Battle Arena</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="battle.css" />
+		<link rel="icon" type="image/x-icon" href="assets/smallIcon.png">
+	</head>
+	<body>
+		<a href="../battle">
+			<img id="logo" src="assets/logo.png">
+		</a>
+		<div id="topImage"><img src="assets/topImage_levelsguide.png"></div>
+		<div class="bodyContent">
+			<h1>Level Making Guide</h1>
+
+			<p>
+				Making a level is largely for Battle Arena is mostly the same as making a level for any other episode. You can just save your level and its folder into the Battle Arena folder. However, in order to have it be playable in-game, you must also set up a config file.
+			</p>
+
+			<h2>Level Config Files</h2>
+			<p>
+				In order to be playable, each level needs a file called "battleConfig.ini" in its folder and have the relevant fields set in it. An ini file can be edited using any standard text editor. You can see the included levels for examples on what these files look like.
+			</p>
+			<p>
+				Below is a list of all fields that can be set in a level's config file.
+				<table>
+					<tr>
+						<th>Field</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><div class="codeName">name</div></td>
+						<td>The name displayed for the level in the level select menu.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">author</div></td>
+						<td>The name displayed under the level's name for the level creator's name.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">mode1, mode2, etc.</div></td>
+						<td>The modes that the level is playable on. The valid values are <span class="codeName">classic</span>, <span class="codeName">stars</span>, <span class="codeName">stone</span>, and <span class="codeName">special</span>. Special mode is explained later in this guide.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">useSeamlessWrap</div></td>
+						<td>If true, enables seamless horizontal/vertical wrap. Seamless wrap only works on either horizontal or vertical wrap (not both at the same time), and has no effect in local split screen.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">musicCanSpeedUp</div></td>
+						<td>If false, prevents the level's music from speeding up once somebody is close to winning or the time limit is nearly up.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">musicCanSpeedUp</div></td>
+						<td>If false, prevents the level's music from speeding up once somebody is close to winning or the time limit is nearly up.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">musicSpedUpSpeed</div></td>
+						<td>The speed the music plays at when sped up. Only affects streamed music formats (e.g. OGG). Defaults to 1.1, which means a 10% increase in speed. Note that an increase in speed also increases the pitch of the music.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">musicSpedUpTempo</div></td>
+						<td>The tempo the music plays at when sped up. Only affects sequenced music formats (e.g. SPC or MIDI). Defaults to 1.3, which means a 30% increase in tempo.</td>
+					</tr>
+				</table>
+			</p>
+
+			<h2>Level Icons</h2>
+			<p>
+				To add an icon that will be displayed on the level select screen, you just need to an image called "battleIcon.png" into your level's folder.
+			</p>
+			<p>
+				To match the icons of the default levels, this icon should be 160x100 pixels.
+			</p>
+
+			<h2>Online Play</h2>
+			<p>
+				In order for your level to be played online, everyone in the room must have the level installed. Otherwise, it will be greyed out in the level selection.
+			</p>
+
+			<h2>Custom Scripts</h2>
+			<p>
+				Be aware that any custom script, NPC or block that you use must be multiplayer compatible. Some may also require modifications to work properly online. You should test that anything you use works both in local multiplayer and online before building your level around it.
+			</p>
+			<p>
+				For more, see the <a class="link" href="scriptsguide">Script Writing Guide</a>.
+			</p>
+		</div>
+
+		<img class="background" src="assets/background.png">
+	</body>
+</html>
