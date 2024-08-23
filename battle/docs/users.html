@@ -1,0 +1,111 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Users - Writing Scripts - Battle Arena</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="../battle.css" />
+		<link rel="icon" type="image/x-icon" href="../assets/smallIcon.png">
+	</head>
+	<body>
+		<a href="../../battle">
+			<img id="logo" src="../assets/logo.png">
+		</a>
+		<div id="topImage"><img src="../assets/topImage_levelsguide.png"></div>
+		<div class="bodyContent">
+			<h2>Users</h2>
+			<p>
+				A "user" represents the concept of someone who is connected to the room. These are similar to players; each user has an associated player, but a player does not necessarily have a user. They are especially useful if you want to do something for everyone who is connected, but don't want to fuss around with the actual player objects.
+			</p>
+			<p>
+				There are the following static methods related to users:
+				<table>
+					<tr>
+						<th>Function</th>
+						<th>Returns</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><div class="codeName">onlinePlay.getUsers&ZeroWidthSpace;()</div></td>
+						<td>table</td>
+						<td>Returns all currently connected users.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">onlinePlay.getUserByPlayer&ZeroWidthSpace;(&ZeroWidthSpace;playerIdx (number)&ZeroWidthSpace;)</div></td>
+						<td>User or nil</td>
+						<td>Returns the user associated with the given player index if it exists.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">onlinePlay.getUserCount&ZeroWidthSpace;()</div></td>
+						<td>number</td>
+						<td>Returns the amount of users that are currently connected to the room.</td>
+					</tr>
+				</table>
+			</p>
+
+			<p>
+				A user has the following instance methods:
+
+				<table>
+					<tr>
+						<th>Function</th>
+						<th>Returns</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><div class="codeName">:disconnect&ZeroWidthSpace;()</div></td>
+						<td>nil</td>
+						<td>Kicks the given user. Can only be run as a host, and you cannot kick yourself.</td>
+					</tr>
+				</table>
+			</p>
+			<p>
+				A user has the following fields:
+
+				<table>
+					<tr>
+						<th>Field</th>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><div class="codeName">.playerIdx</div></td>
+						<td>number</td>
+						<td>The index of the player associated with the user.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">.lastResponseTime</div></td>
+						<td>number</td>
+						<td>The local time that the user last responded at. See the <a class="link" href="timing">timing page</a> more.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">.pingedTime</div></td>
+						<td>number</td>
+						<td>The local time that the user was last pinged at. See the <a class="link" href="timing">timing page</a> more.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">.pingCounter</div></td>
+						<td>number</td>
+						<td>The number of the times that the user has been pinged.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">.pingValue</div></td>
+						<td>number</td>
+						<td>The time, in seconds, that it took that the user to respond to the most recent ping. This is displayed in the top right when the chat is open.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">.isHost</div></td>
+						<td>boolean</td>
+						<td>True if this user is the host.</td>
+					</tr>
+					<tr>
+						<td><div class="codeName">.isUnresponsive</div></td>
+						<td>boolean</td>
+						<td>True if it has been several seconds since the user last responded.</td>
+					</tr>
+				</table>
+			</p>
+		</div>
+
+		<img class="background" src="../assets/background.png">
+	</body>
+</html>

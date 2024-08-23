@@ -96,7 +96,7 @@ a {
 	background-color: #000000C0;
 	clip-path: polygon(8px 0%, calc(100% - 16px) 0%, 100% 16px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 16px 100%, 0% calc(100% - 16px), 0% 8px);
 
-	font-size: inherit;
+	font-size: 16px;
 	padding: 16px 24px;
 	
 	font-family: monospace, monospace;
@@ -127,6 +127,10 @@ h1 {
 	margin-bottom: 48px;
 }
 
+h2 {
+	margin-top: 40px;
+}
+
 h3 {
 	margin-top: 32px;
 }
@@ -135,6 +139,7 @@ h3 {
 table {
 	border-collapse: collapse;
 	width: 100%;
+	font-size: 16px;
 }
 
 td, th {
