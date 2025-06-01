@@ -14,6 +14,61 @@
 		<div class="bodyContent">
 			<h1>Changelog</h1>
 
+			<h2>v1.2.0 - 2025/06/01</h2>
+			<p>
+				<div class="screenshotCollection">
+					<img style="width: 50%; margin-right: 2%" class="screenshot" src="assets/screenshots/cyberworld.png" alt="Screenshot of the new Cyber World level">
+					<img style="width: 50%; margin-left: 2%" class="screenshot" src="assets/screenshots/costumemenu.png" alt="Screenshot of the new costume menu">
+				</div>
+
+				<h3>Additions/Changes</h3>
+				<ul>
+					<li>
+						Costumes are now player-specific rather than applying to all players of the same character.
+						<ul>
+							<li>As a result of the new costume system, costumes can no longer change the player's hitbox.</li>
+						</ul>
+					</li>
+					<li>Added two new levels: "The Suck" and "CYBER WORLD".</li>
+					<!-- <li>Added Hell Maps. Good luck!</li> -->
+					<li>Added <span><img src="assets/hellmaps.gif" alt="hell maps" height=24></span>. Good luck!</li>
+					<li>Added a menu for changing costumes.</li>
+					<li>The minimap is more detailed, now showing the terrain of the level.</li>
+					<li>Extra information is now displayed on the loading screen before a game.</li>
+					<li>Added a countdown during the last 10 seconds.</li>
+					<li>Added an extra piece of hub music.</li>
+					<li>Added a "mute music" option.</li>
+					<li>Added "disableMap" and "disableSplitScreen" configs for levels.</li>
+					<li>Changed the time to vote for a level from 15 seconds to 20.</li>
+				</ul>
+
+				<h3>Netcode Improvements</h3>
+				<ul>
+					<li><b>Clients can now communicate directly with one another rather than having to go through the host.</b> This should result in everything being much more stable when playing with more than two players, and also resolves a lot of host advantage. In some cases, this effectively halves the latency.</li>
+					<li>Players and NPCs will no longer accept an out-of-order update, which should result in less "jerky" movement.</li>
+					<li>Player projectiles such as fireballs, hammers, etc. are now attacker-favoured rather than defender-favoured, making them more fair to avoid.</li>
+					<li>NPCs transforming upon being jumped on (e.g., koopas turning into shells) should now work much more reliably.</li>
+					<li>Some NPCs (such as the stars in Star Catcher) now use a "fair collection" system which ensures that the correct player gets them.</li>
+					<li>Made players standing on moving layers appear more stable.</li>
+					<li>Fixed a bug that would sometimes cause NPCs to not spawn.</li>
+					<li>Fixed errors and some overall brokeness with lineguided NPCs.</li>
+					<li>Fixed bombs becoming stuck and constantly making explosion sounds.</li>
+					<li>Players using warps are now better synced.</li>
+				</ul>
+				
+				<h3>Fixes</h3>
+				<ul>
+					<li>Fixed a softlock that could occur if someone stops responding before the level select opens.</li>
+					<li>Fixed an oversight that caused the more descriptive error messages when trying to join a room to never be displayed in practice.</li>
+					<li>Fixed a bug that could cause onNPCTransform to not run (especially after being frozen), often resulting in extra settings not being initialised properly.</li>
+					<li>Fixed the player's character and costume changing when joining/leaving an online room.</li>
+					<li>Fixed the shockwaves of the Stone being able to stun players on the same team and players in statue form.</li>
+					<li>Fixed how a player's outline is rendered when using a Boo Mushroom.</li>
+					<li>Fixed the player icons on the HUD not displaying correctly in horizontal split screen.</li>
+					<li>Fixed a bug that caused the HUD to not display correctly in Recon Mode when seamless wrap was enabled.</li>
+                </ul>
+			</p>
+
 			<h2>v1.1.0 - 2024/09/29</h2>
 			<p>
 				<ul>

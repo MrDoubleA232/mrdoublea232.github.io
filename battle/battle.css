@@ -121,6 +121,12 @@ a {
 	border-bottom-width: 6px; /* thanks Stella! */
 }
 
+.screenshotCollection {
+	width: 100%;
+	display: inline-flex;
+	align-items: center;
+}
+
 
 h1 {
 	text-align: center;
