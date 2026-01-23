@@ -1,0 +1,126 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Writing Scripts - Battle Arena</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="battle.css" />
+		<link rel="icon" type="image/x-icon" href="assets/smallIcon.png">
+	</head>
+	<body>
+		<a href="../battle">
+			<img id="logo" src="assets/logo.png">
+		</a>
+		<div id="topImage"><img src="assets/topImage_levelsguide.png"></div>
+		<div class="bodyContent">
+			<h1>Script Writing Guide</h1>
+
+			<p>
+				Custom scripts, NPCs and blocks may need some extra code in order to work properly online. This guide acts as a basic introduction to how to write scripts with the online system in mind.
+			</p>
+
+			<h2>Documentation</h2>
+			<p>
+				<ul>
+					<li><a class="link" href="docs/commands">Commands System</a></li>
+					<li><a class="link" href="docs/npc">Handling NPCs Online</a></li>
+					<li><a class="link" href="docs/player">Handling Players Online</a></li>
+					<li><a class="link" href="docs/users">Users</a></li>
+					<li><a class="link" href="docs/encoding">Encoding</a></li>
+					<li><a class="link" href="docs/timing">Timing</a></li>
+				</ul>
+			</p>
+
+			<h2>Basic Example</h2>
+			<p>
+				For this example, we will demonstrate a basic script, and how to sync it online. We want a script that launches the player upwards and plays a sound effect when they press the drop item key.
+			</p>
+			<p>
+				Here is how you might do that in normal SMBX2:
+			</p>
+			<p class="codeBlock">
+				function onTick()<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;if player.keys.dropItem == KEYS_PRESSED then<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;player.speedY = -20<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SFX.play(43)<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				end
+			</p>
+			<p>
+				To make this work online, we must first address the lack of multiplayer compatibility:
+			</p>
+			<p class="codeBlock">
+				function onTick()<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;for _,p in ipairs(Player.get()) do<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if p.keys.dropItem == KEYS_PRESSED then<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.speedY = -20<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SFX.play(43)<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				end
+			</p>
+			<p>
+				On its own, this probably works decently in online play. However, to reduce any possible weirdness, it's best to use a command to synchronise the event of a player launching. Here, we create the "launchPlayerCommand":
+			</p>
+			<p class="codeBlock">
+				<span class="codeComment">-- Gotta load the library!</span><br>
+				local onlinePlay = require("scripts/onlinePlay")<br>
+				<br>
+				<span class="codeComment">-- Remember to give your command a unique enough name!</span><br>
+				local launchPlayerCommand = onlinePlay.createCommand("launchPlayer",onlinePlay.IMPORTANCE_MAJOR)<br>
+				<br>
+				<span class="codeComment">-- The logic for launching the player has been moved into its own function.</span><br>
+				<span class="codeComment">-- This helps to reduce duplicate code.</span><br>
+				local function launchPlayer(p)<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;p.speedY = -20<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;SFX.play(43)<br>
+				end<br>
+				<br>
+				<span class="codeComment">-- When the command is received, it should call the launchPlayer function.</span><br>
+				<span class="codeComment">-- Note that, since player objects cannot be directly sent, a player index is used instead.</span><br>
+				function launchPlayerCommand.onReceive(sourcePlayerIdx, playerIdx)<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;local p = Player(playerIdx)<br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;launchPlayer(p)<br>
+				end<br>
+				<br>
+				function onTick()<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;for _,p in ipairs(Player.get()) do<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if p.keys.dropItem == KEYS_PRESSED then<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">-- If online, send an event to everyone else</span><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if onlinePlay.currentMode ~= onlinePlay.MODE_OFFLINE then<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;launchPlayerCommand:send(0,p.idx)<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;launchPlayer(p)<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				end
+			</p>
+			<p>
+				A lot changed very quickly here. The core of it is just that there is now a command that, when received, launches the player just like what would happen when a player presses drop item. We also send out this command when a player launches themselves. Now, the event of being launched is properly synced!
+			</p>
+			<p>
+				For the finishing touches, there are two other little changes to make. For one, we can still hear the sound effect even if the player is way off screen. We can fix this by using the onlinePlayPlayers.canMakeSound function. Just replace <span class="codeName">SFX.play(43)</span> with the following (and don't forget to load the library!):
+			</p>
+			<p class="codeBlock">
+				if onlinePlayPlayers.canMakeSound(p) then<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;SFX.play(43)<br>
+				end
+			</p>
+			<p>
+				And finally, players other than the one we are controlling will actually be launched twice for just one button press. This is because we receive the event of them being launched, but we also launch them again since they're also registered as pressing drop item in onTick. To fix this, we can use the onlinePlayPlayers.ownsPlayer function. Replacing the <span class="codeName">p.keys.dropItem == KEYS_PRESSED</span> line:
+			</p>
+			<p class="codeBlock">
+				if p.keys.dropItem == KEYS_PRESSED and onlinePlayPlayers.ownsPlayer(p) then
+			</p>
+			<p>
+				And now our script works perfectly online! You can apply this same sort of system - one player sending a command, and everyone else listening for it - to just about anything you want to be synchronised online.
+			</p>
+			<p>
+				You can read the documentation linked above for more about individual systems.
+			</p>
+		</div>
+
+		<img class="background" src="assets/background.png">
+	</body>
+</html>

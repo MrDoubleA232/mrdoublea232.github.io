@@ -1,0 +1,106 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Players - Writing Scripts - Battle Arena</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="../battle.css" />
+		<link rel="icon" type="image/x-icon" href="../assets/smallIcon.png">
+	</head>
+	<body>
+		<a href="../../battle">
+			<img id="logo" src="../assets/logo.png">
+		</a>
+		<div id="topImage"><img src="../assets/topImage_levelsguide.png"></div>
+		<div class="bodyContent">
+			<h2>Players</h2>
+			<p>
+				This page documents the library responsible for most of player syncing, <span class="codeName">scripts/onlinePlay_player.lua</span>, as well as <span class="codeName">scripts/battlePlayer.lua</span>.
+			</p>
+
+            <h2>onlinePlayPlayers Functions</h2>
+            <table>
+                <tr>
+                    <th>Function</th>
+                    <th>Returns</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>onlinePlayPlayers.ownsPlayer&ZeroWidthSpace;(&ZeroWidthSpace;player (Player)&ZeroWidthSpace;)</td>
+                    <td>boolean</td>
+                    <td>Returns true if the player is the one being controlled, or false otherwise. Always returns true when not online.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayPlayers.canMakeSound&ZeroWidthSpace;(&ZeroWidthSpace;player (Player)&ZeroWidthSpace;)</td>
+                    <td>boolean</td>
+                    <td>Returns true if the player is on screen or is the player being followed by the camera. Always returns true when not online.</td>
+                </tr>
+			</table>
+
+            <h2>battlePlayer Functions</h2>
+            <table>
+                <tr>
+                    <th>Function</th>
+                    <th>Returns</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getPlayerData&ZeroWidthSpace;(&ZeroWidthSpace;player (Player)&ZeroWidthSpace;)</td>
+                    <td>table</td>
+                    <td>Returns the table used to store extra data about a player.</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getName&ZeroWidthSpace;(&ZeroWidthSpace;index (number)&ZeroWidthSpace;)</td>
+                    <td>string</td>
+                    <td>Returns the player's username in online play. Offline, it returns either "P1" or "P2".</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getColor&ZeroWidthSpace;(&ZeroWidthSpace;index (number)&ZeroWidthSpace;)</td>
+                    <td>Color</td>
+                    <td>Returns the color used to represent the player, such as with their outline.</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getPlayerHead&ZeroWidthSpace;(&ZeroWidthSpace;character (number)&ZeroWidthSpace;)</td>
+                    <td>LuaImageResource</td>
+                    <td>Returns an image of the icon for the character's head, used in places such as the online chat. Considers the costume of the character, too.</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getPlayerIsActive&ZeroWidthSpace;(&ZeroWidthSpace;player (Player)&ZeroWidthSpace;)</td>
+                    <td>boolean</td>
+                    <td>Returns false if the player has died and lost all of their lives or if they have disconnected from online play. Otherwise returns true.</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.setPlayerIsActive&ZeroWidthSpace;(&ZeroWidthSpace;player (Player), active (boolean)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Forces a player to be either active or inactive. Also calls battlePlayer.reset and sets forced state.</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getActivePlayers&ZeroWidthSpace;(&ZeroWidthSpace;player (Player)&ZeroWidthSpace;)</td>
+                    <td>table</td>
+                    <td>Returns a list of the players considered to be "active".</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getActivePlayerCount&ZeroWidthSpace;(&ZeroWidthSpace;player (Player)&ZeroWidthSpace;)</td>
+                    <td>number</td>
+                    <td>Returns the number of players considered to be "active".</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.reset&ZeroWidthSpace;(&ZeroWidthSpace;player (Player)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Resets most properties about the player, other than things such as character. Called when a player dies.</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.getStartPoint&ZeroWidthSpace;(&ZeroWidthSpace;index (number)&ZeroWidthSpace;)</td>
+                    <td>Vector2</td>
+                    <td>Returns the start point of the player with that index.</td>
+                </tr>
+                <tr>
+                    <td>battlePlayer.harmPlayer&ZeroWidthSpace;(&ZeroWidthSpace;player (Player), harmType (number)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Harms the player with the given harm type. Harm type can be <span class="codeName">battlePlayer.HARM_TYPE.NORMAL</span>, <span class="codeName">.SMALL_DAMAGE</span> or <span class="codeName">.FREEZE</span>. Note that, unlike harming the player normally, this has no sanity checks when online to cancel the harm if claiming the harm makes no sense (i.e., claiming damage for a player you have nothing to do with).</td>
+                </tr>
+			</table>
+		</div>
+
+		<img class="background" src="../assets/background.png">
+	</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>NPCs - Writing Scripts - Battle Arena</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="../battle.css" />
+		<link rel="icon" type="image/x-icon" href="../assets/smallIcon.png">
+	</head>
+	<body>
+		<a href="../../battle">
+			<img id="logo" src="../assets/logo.png">
+		</a>
+		<div id="topImage"><img src="../assets/topImage_levelsguide.png"></div>
+		<div class="bodyContent">
+			<h2>NPCs</h2>
+			<p>
+				This page documents the tools to help with syncing NPCs online. NPC behaviour is handled in <span class="codeName">scripts/onlinePlay_npc.lua</span>.
+                <ul>
+                    <li><a class="link" href="#howdosync">How are NPCs synced?</a></li>
+                    <li><a class="link" href="#handlingconfig">Online Handling Config</a></li>
+                    <li><a class="link" href="#misc">Miscellaneous Functions</a></li>
+                    <li><a class="link" href="#commands">NPC Commands</a></li>
+                </ul>
+			</p>
+
+            <h2 id="howdosync">How are NPCs synced?</h2>
+			<p>
+                Every NPC is considered to be "owned" by a specific player. This player is responsible for sending everyone else updates about the NPC. NPCs only get an owner after spawning, and the owner can change at any time.
+            </p>
+            <p>
+                NPCs are also given "online UIDs". This number is used to identify the NPC, since using its index would not be reliable. Once an NPC has been assigned a UID, it will never change.
+            </p>
+            <p>
+                Most properties of an NPC - things like its position, speed, extra settings, and much more - will already be synced. However, the data table is not synced. In order to sync properties in the data table, you can use the "extra data" properties of the online NPC handling config.
+            </p>
+
+            <h2 id="handlingconfig">Online Handling Config</h2>
+            <p>
+                NPCs IDs can have extra code and properties specified for them through the handling config. Most importantly, this allows for proper syncing of data tables. It also allows you to control things like when a player should steal ownership of an NPC from another player, or how often often the NPC should be updated.
+            </p>
+            <p>
+                The handling config can be used like so:
+            </p>
+            <p class="codeBlock">
+                local onlinePlayNPC = require("scripts/onlinePlay_npc")<br>
+                <br>
+                <span class="codeComment">-- 751 is the ID of the NPC you want to affect here.</span><br>
+                onlinePlayNPC.onlineHandlingConfig[751] = {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;getExtraData = function(v)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">-- The owner of the NPC will run getExtraData.</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">-- Its return value will then be received by everyone else in setExtraData.</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local data = v.data<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not data.initialized then<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return nil<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state = data.state,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer = data.timer,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;end,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;setExtraData = function(v,receivedData)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">-- The data from getExtraData will be used to change the NPC's state.</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">-- This is mainly for data table syncing, but it can also be used for any information about the NPC.</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local data = v.data<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not data.initialized then<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return nil<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.state = receivedData.state<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.timer = receivedData.timer<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;end,<br>
+                }<br>
+            </p>
+            <p>
+                The following fields are available for a handling config:
+            </p>
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>getExtraData</td>
+                    <td>function</td>
+                    <td>A function to encode data about the NPC's state, which can then be passed into setExtraData on the other players' ends. Can return any encodable value.</td>
+                </tr>
+                <tr>
+                    <td>setExtraData</td>
+                    <td>function</td>
+                    <td>A function to take in the data from getExtraData and modify the NPC's state accordingly.</td>
+                </tr>
+                <tr>
+                    <td>shouldStealFunc</td>
+                    <td>function</td>
+                    <td>Runs every frame, if the NPC is owned by another player. If it returns true, it will try to take ownership of the NPC. If it returns false, then the NPC cannot be stolen at all. If it returns nil, standard logic for stealing NPCs applies.</td>
+                </tr>
+                <tr>
+                    <td>findSuitableOwnerFunc</td>
+                    <td>function</td>
+                    <td>Runs when an NPC initially spawns, to decide who should get ownership of it. If it returns a number, that player of that index will be given ownership. If it returns nil, standard logic for NPC ownership applies.</td>
+                </tr>
+                <tr>
+                    <td>canClaimHarmFunc</td>
+                    <td>function</td>
+                    <td>Normally, NPC harming is cancelled unless the player owns the NPC or is responsible for the harming. If this function returns true, harming will be allowed regardless of any other factors.</td>
+                </tr>
+                <tr>
+                    <td>canClaimKillFunc</td>
+                    <td>function</td>
+                    <td>Similar to canClaimHarmFunc, but for when an NPC dies.</td>
+                </tr>
+                <tr>
+                    <td>updateFrequency</td>
+                    <td>number</td>
+                    <td>How long, in seconds, is between each update of the NPC. The default is 1/10 (i.e., 10 updates per second).</td>
+                </tr>
+            </table>
+
+            <p>
+                The following functions can be used for modifying the handling config per-NPC instead of per-ID. Note that the getExtraData and setExtraData functions cannot be changed through these methods.
+            </p>
+            <table>
+                <tr>
+                    <th>Function</th>
+                    <th>Returns</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.getConfig&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC)&ZeroWidthSpace;)</td>
+                    <td>table or nil</td>
+                    <td>Returns the handling config used by the NPC, if it has one. Respects per-NPC configs.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.overwriteConfig&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC), newConfig (table)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Completely replaces the handling config of the NPC, ignoring the per-ID config entirely.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.mergeConfig&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC), newConfig (table)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Merges the new config with the NPC's existing config (be it a per-NPC or per-ID one). If conflicts exist, then the new config takes priority.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.resetConfig&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Resets any per-NPC config, restoring the NPC to the per-ID config.</td>
+                </tr>
+            </table>
+
+            <h2 id="misc">Miscellaneous Functions</h2>
+            <table>
+                <tr>
+                    <th>Function</th>
+                    <th>Returns</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.getUIDFromNPC&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC)&ZeroWidthSpace;)</td>
+                    <td>number or nil</td>
+                    <td>Returns the online UID of the NPC. If the NPC has not yet been assigned one, returns nil.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.getNPCFromUID&ZeroWidthSpace;(&ZeroWidthSpace;onlineUID (number)&ZeroWidthSpace;)</td>
+                    <td>NPC or nil</td>
+                    <td>Returns the NPC with the given UID, if it exists.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.getOwner&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC)&ZeroWidthSpace;)</td>
+                    <td>number</td>
+                    <td>Returns the index of the player that owns the NPC. If no owner has been assigned, returns 0.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.ownsNPC&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC)&ZeroWidthSpace;)</td>
+                    <td>boolean</td>
+                    <td>Returns true if the NPC is owned by the player, or false otherwise. Always returns true when not online.</td>
+                </tr>
+                <!-- <tr>
+                    <td>onlinePlayNPC.getData&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC)&ZeroWidthSpace;)</td>
+                    <td>number</td>
+                    <td>Returns the table that is used to store all of the data used for online syncing.</td>
+                </tr> -->
+                <tr>
+                    <td>onlinePlayNPC.tryClaimNPC&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Tries to claim ownership of the NPC, if it doesn't already have an owner. Does not guarantee that it will actually be claimed unless the player is the host.</td>
+                </tr>
+                <tr>
+                    <td>onlinePlayNPC.assignNPCToOwner&ZeroWidthSpace;(&ZeroWidthSpace;npc (NPC), playerIdx (number)&ZeroWidthSpace;)</td>
+                    <td>nil</td>
+                    <td>Grants ownership of an NPC to a specific player. Can only be run as the host.</td>
+                </tr>
+            </table>
+
+            <h2 id="commands">NPC Commands</h2>
+            <p>
+                For convenience, there is a version of the <a class="link" href="npc">commands system</a> specifically for NPCs. It acts almost exactly like the regular commands sytem, but each message is tied to a specific NPC.
+            </p>
+            <p class="codeBlock">
+                local onlinePlay = require("scripts/onlinePlay")<br>
+                local onlinePlayNPC = require("scripts/onlinePlay_npc")<br>
+                <br>
+                <span class="codeComment">-- NPC commands are created exactly like regular commands, just with a different function.</span><br>
+                <span class="codeComment">-- You should include the name of your NPC in the command name, to make it more unique.</span><br>
+                local exampleCommand = onlinePlayNPC.createNPCCommand("myNPCName_example", onlinePlay.IMPORTANCE_MAJOR)<br>
+                <br>
+                <span class="codeComment">-- onReceive works almost the same, but there is an added argument: the NPC for the command.</span><br>
+                function exampleCommand.onReceive(npc,sourcePlayerIdx, foo,bar)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="codeComment">-- Your code here.</span><br>
+                end<br>
+                <br>
+                <span class="codeComment">-- Command:send is also mostly the same as a regular command, just with an NPC.</span><br>
+                exampleCommand:send(npc,0, foo,bar)
+            </p>
+		</div>
+
+		<img class="background" src="../assets/background.png">
+	</body>
+</html>

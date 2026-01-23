@@ -1,0 +1,33 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Battle Arena for SMBX2</title>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="battle.css" />
+	</head>
+	<body>
+		<div id="topimage"><img src="battle/helpimage.png"></div>
+		<div class="helpcontent">
+            <h2>Step 1/3: Allowing socket</h2>
+
+            <p>In order for it to access the internet, you must make a small modification to your SMBX2 install. Locate your install's <b>main.lua</b> file (SMBX2/data/scripts/base/engine/main.lua)...</p>
+            <div id="midimage"><img src="battle/main-lua-path.png"></div>
+            <p>Open it with any text or code editor, go to the very end of the file, and add a line with this:</p>
+            <p><b>customPackage.loaded["socket.core"] = require("socket.core")</b></p>
+            <p>Only ever do this if you truly trust the episode author! Then, you can restart the episode and it should've taken effect. Now when choosing the 'online' option, it should give you a few options.</p>
+            <br>
+
+            <h2>Step 2/3: Setting up a VPN</h2>
+            
+            <p>By default, it only works via a LAN connection. However, you can use certain programs (such as Hamachi or Radmin VPN) to simulate one over the internet.</p>
+            <p>You can find guides on how to use them elsewhere, but once you have them setup for everyone you'll be playing with, you can move onto the next bit.</p>
+            <br>
+
+            <h2>Step 3/3: Hosting & Connecting</h2>
+            <p>I haven't done the UI for this yet lol</p>
+		</div>
+        <!--<div class="notecontent">
+			<p>Battle Arena and SMBX2 are not affiliated with or endorsed by Nintendo/any third parties.<br>They are freeware, and not to be sold.</p>
+		</div>-->
+	</body>
+</html>
