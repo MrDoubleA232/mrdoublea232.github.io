@@ -14,11 +14,147 @@
 		<div class="bodyContent">
 			<h1>Changelog</h1>
 
+			<h2>v1.3.0 - 2026/02/27</h2>
+			<p>
+				<div class="screenshotCollection">
+					<img class="screenshot" src="assets/screenshots/phantopark.png" alt="Screenshot of the new Phanto Park level and Phanto Frenzy mode. It is a split-screen battle, with player 1 (Toad) running from player 2 (Luigi), who is wearing a Phanto mask and has shot a large, blue explosion towards Toad.">
+					<img class="screenshot" src="assets/screenshots/bombinblast.png" alt="Screenshot of the new Bombin' Blast mode. It is a split-screen battle. Player 1 (Peach) is holding nine bombs, all stacked on top of each other. Player 2 (Luigi), has just thrown a bomb at a question-mark block, resulting a large, green explosion.">
+					<img class="screenshot" src="assets/screenshots/phantocollection.png" alt="Screenshot of the new Phanto Collection Co. mode. Link is seen fighting against several neon-coloured enemies.">
+				</div>
+
+				<h3>Additions/Changes</h3>
+				<ul>
+					<li>
+						Added a new game mode, <b>Phanto Frenzy</b>.
+						<ul>
+							<li>Avoid getting caught by the Phanto! If you do get caught, tag someone else, or you'll lose points!</li>
+						</ul>
+					</li>
+					<li>
+						Added a new game mode, <b>Bombin' Blast</b>.
+						<ul>
+							<li>Grab some bombs and chuck 'em at everyone in sight!</li>
+						</ul>
+					</li>
+					<li>
+						Added a new side mode in the hub, <b>Phanto Collection Co.</b>
+						<ul>
+							<li>A shady company wants as many Phantos as you can manage to get... hey, is killing this number of bosses good for the ecosystem?</li>
+							<li>This mode can also be played in singleplayer.</li>
+						</ul>
+					</li>
+					<li>Added a new map, <b>Phanto Park</b>.</li>
+					<li>
+						Adding custom costumes has been made easier, by allowing Battle Arena-specific files to simply be placed into the costume's folder.
+						<ul>
+							<li>A head icon can be added with a file called <span class="codeName">battleHead.png</span>.</li>
+							<li>A description, used by the costume menu, can be added with a file called <span class="codeName">battleDescription.txt</span>.</li>
+							<li>Data for where to place the sprite of a Phanto being worn can be added with a folder called <span class="codeName">battleMaskConfig</span>.</li>
+						</ul>
+					</li>
+					<li>Added the option to display a kill feed.</li>
+					<li>The First-Place Phanto item now has a charge attack.</li>
+					<li>Players now receive less invincibility time after being stomped on.</li>
+				</ul>
+
+				<h3>Level Changes</h3>
+				<ul>
+					<li>
+						The following levels can now be played in <b>Phanto Frenzy</b>:
+						<div class="indentedBlock">
+							Airship Ambush,
+							CYBER WORLD,
+							Hyrule Temple,
+							Lethal Lava Level,
+							New World,
+							Phanto Park,
+							Pipe Passage,
+							Snowball Scuffle,
+							The Suck,
+							Woody Warzone
+						</div>
+					</li>
+					<li>
+						The following levels can now be played in <b>Bombin' Blast</b>:
+						<div class="indentedBlock">
+							Airship Ambush,
+							Battlefort,
+							Dinosaur Land,
+							Hyrule Temple,
+							New World,
+							Snowball Scuffle,
+							The Suck,
+							Woody Warzone
+						</div>
+					</li>
+					<li>
+						Airship Ambush:
+						<ul>
+							<li>The bottom right corner of the map has been adjusted to make movement easier.</li>
+							<li>The Burner Beetles are now immune to damage.</li>
+							<li>When the "Disable Fancy Effects" setting is enabled, the rain effect will now be disabled.</li>
+						</ul>
+					</li>
+					<li>
+						New World:
+						<ul>
+							<li>Blocks being destroyed is now reflected on the minimap.</li>
+							<li>Halved the amount of time that it takes for blocks to respawn after being destroyed.</li>
+							<li>Slightly moved one platform down to make it easier to reach.</li>
+							<li>Blocks can now be destroyed by any explosion rather than just TNT.</li>
+						</ul>
+					</li>
+					<li>
+						Woody Warzone:
+						<ul>
+							<li>Updated the sprites of the Donut Blocks to better reflect them being fully solid.</li>
+						</ul>
+					</li>
+				</ul>
+				
+				<h3>Fixes</h3>
+				<ul>
+					<li>In the level select menu, a level's mode icons may now be split into multiple lines if it is long enough.</li>
+					<li>The distribution of items from coins is slightly more accurate.</li>
+					<li>Fixed an oversight where a costume's name would not be displayed correctly if it used "&lt;" or "&gt;" characters.</li>
+					<li>Fixed a bug with costumes that could happen when carrying over save data from an older version.</li>
+					<li>Fixed some minor inconsistencies in the outlined version of the main font.</li>
+					<li>Fixed an issue where rules and team setups would not be correctly set for clients.</li>
+					<li>Fixed the <span class="codeName">onWarp</span> event sometimes not triggering.</li>
+					<li>Fixed explosions from teammates still hurting.</li>
+					<li>Fixed cases where Link's stab could sometimes hurt teammates.</li>
+					<li>Fixed an error that could occur when playing Stone Carrier with teams enabled.</li>
+					<li>Fixed the stone in Stone Carrier sometimes not hurting other players when thrown.</li>
+					<li>Fixed an issue where, when in a boot, more of a player's sprite could be seen than intended.</li>
+					<li>Fixed an issue where the NPC being held by a player could desync between clients, resulting in teleporting NPCs.</li>
+					<li>
+						The following NPCs should now behave better online:
+						<ul>
+							<li>Swinging Platforms</li>
+							<li>Burners</li>
+							<li>Countdown Platforms</li>
+							<li>"Bro" enemies (Hammer Bro, Fire Bro, etc.)</li>
+						</ul>
+					</li>
+                </ul>
+
+				<h3>Minor Technical Changes</h3>
+				<ul>
+					<li>Items can now be blacklisted in some modes, and can provide a callback function to decide their weighting.</li>
+					<li>The HUD displaying stars and points is no longer hardcoded to the mode and can be controlled through code.</li>
+					<li>The <span class="codeName">battlePlayer.onPlayerHarmCustom</span> and <span class="codeName">battlePlayer.onPostPlayerHarmCustom</span> events now provide a <span class="codeName">causeInfo</span> argument, describing the cause type of the damage, player responsible, relevant NPC ID, etc.</li>
+					<li><span class="codeName">battlePlayer.hasHarmImmunity</span>, <span class="codeName">battlePlayer.hasDeathImmunity</span>, and <span class="codeName">battlePlayer.getRespawnDuration</span> now exist as exposed functions, for the purpose of potentially being overwritten by custom code.</li>
+					<li><span class="codeName">battleStone.teamPoints</span> has been changed to <span class="codeName">battlePlayer.teamPoints</span></li>
+					<li>NPCs now have different "synchronisation types" that can be used to better control how an NPC is synchronised online.</li>
+					<li><span class="codeName">onlinePlay</span> now has a feature called "join packets", which allows data to be easily synced when a player joins. However, this is mostly irrelevant to custom levels.</li>
+				</ul>
+			</p>
+
 			<h2>v1.2.0 - 2025/06/01</h2>
 			<p>
 				<div class="screenshotCollection">
-					<img style="width: 50%; margin-right: 2%" class="screenshot" src="assets/screenshots/cyberworld.png" alt="Screenshot of the new Cyber World level">
-					<img style="width: 50%; margin-left: 2%" class="screenshot" src="assets/screenshots/costumemenu.png" alt="Screenshot of the new costume menu">
+					<img class="screenshot" src="assets/screenshots/cyberworld.png" alt="Screenshot of the new Cyber World level">
+					<img class="screenshot" src="assets/screenshots/costumemenu.png" alt="Screenshot of the new costume menu">
 				</div>
 
 				<h3>Additions/Changes</h3>

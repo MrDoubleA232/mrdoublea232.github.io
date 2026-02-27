@@ -122,9 +122,21 @@ a {
 }
 
 .screenshotCollection {
-	width: 100%;
-	display: inline-flex;
+	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 20px;
+}
+.screenshotCollection > .screenshot {
+	flex-grow: 0.2;
+	width: 400px;
+}
+
+.indentedBlock {
+	margin-left: 24px;
+	margin-top: 8px;
+	margin-bottom: 8px;
 }
 
 
@@ -182,6 +194,10 @@ tr:nth-child(even) {
 		min-width: 384px;
 		margin-left: 24px !important;
 		margin-right: 24px !important;
+	}
+
+	.screenshotCollection > .screenshot {
+		width: 600px;
 	}
 
 	#logo {
